@@ -43,7 +43,6 @@ class Home extends React.Component {
       planetCount: 0,
       naxePlanetsURL: "",
       isLoaded: false,
-      mainIcon: '../assets/images/stormtrooper.png',
       modalVisible: false,
     };
 

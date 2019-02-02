@@ -29,7 +29,8 @@ import {
     width: 120,
     height: 120,
     marginTop: 20,
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
+    resizeMode: 'cover',
     borderRadius: 60,
   },
   mainContainer: {

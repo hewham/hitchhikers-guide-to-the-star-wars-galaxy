@@ -38,7 +38,7 @@ import {
   listDetailText:{
     textAlign: 'left',
     textTransform: 'capitalize',
-    color: '#888',
+    color: '#999',
   },
 
 

@@ -11,15 +11,11 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Scanner',
+  tabBarLabel: 'Planets',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? 'ios-compass'
-          : 'md-compass'  
-      }
+      name='md-planet' 
     />
   ),
 };
@@ -30,11 +26,11 @@ const SpeciesStack = createStackNavigator({
 });
 
 SpeciesStack.navigationOptions = {
-  tabBarLabel: 'Search',
+  tabBarLabel: 'Species',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
+      name='md-eye'
     />
   ),
 };

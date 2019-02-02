@@ -8,13 +8,8 @@ import {
 import { WebBrowser } from 'expo';
 
 
-
 import { MonoText } from '../components/StyledText';
-
-
 import httpGet from '../providers/http';
-
-
 import Specie from '../components/Specie';
 import styles from '../styles/styles';
 
@@ -41,7 +36,6 @@ class Home extends React.Component {
       speciesCount: 0,
       speciesURL: "",
       isLoaded: false,
-      mainIcon: '../assets/images/stormtrooper.png',
       modalVisible: false,
     };
 
@@ -114,7 +108,7 @@ class Home extends React.Component {
 
           <View style={styles.mainImageContainer}>
             <Image
-              source={require('../assets/images/porg.gif')}
+              source={require('../assets/images/r2d2.gif')}
               style={styles.mainImage}
             />
           </View>
