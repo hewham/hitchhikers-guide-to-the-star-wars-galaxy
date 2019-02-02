@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements'
 import listStyles from '../styles/listStyles';
 
 
-// Funtion to return very simple detail tile used in cards for planets and species
+// Funtion to return very simple list item used in planet modal
 
 export default function renderListItem(icon, iconColor, title, detail){
   return(

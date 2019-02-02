@@ -4,18 +4,15 @@ import {
   ScrollView,
   Text,
   View,
-  SearchBar,
 } from 'react-native';
+import { SearchBar } from 'react-native-elements'
 import { WebBrowser } from 'expo';
 
 
 
 import { MonoText } from '../components/StyledText';
-
-
-import Constants from '../constants/variables';
+import Constants from '../constants/Variables';
 import httpGet from '../providers/http';
-
 
 import Planet from '../components/Planet';
 import styles from '../styles/styles';
@@ -39,11 +36,11 @@ class Home extends React.Component {
     super(props);
     this.state = {
       planets: [],
-      species: [],
+      filteredPlanets: [],
       planetCount: 0,
-      naxePlanetsURL: "",
       isLoaded: false,
       modalVisible: false,
+      searchInput: "",
     };
 
     this.init();
@@ -51,7 +48,7 @@ class Home extends React.Component {
 
   init = async () => {
     if(!this.state.isLoaded){
-      this.getPlanets("https://swapi.co/api/planets/");
+      this.getPlanets(Constants.planetsURL);
     }
   }
 
@@ -71,7 +68,6 @@ class Home extends React.Component {
 
       this.setState({
         planetCount: res.count,
-        nextPlanetsURL: res.next,
         planets: planets,
       });
   
@@ -80,6 +76,7 @@ class Home extends React.Component {
     }else{
       //No more pages, set state as done scanning
       this.setState({
+        filteredPlanets: this.state.planets,
         isLoaded: true
       });
     }
@@ -88,7 +85,7 @@ class Home extends React.Component {
   // Planet Render Function
   renderPlanetsList(){
     if(this.state.isLoaded){
-      return this.state.planets.map((planet) =>
+      return this.state.filteredPlanets.map((planet) =>
         <Planet
           planet={planet}
           key={planet.name}
@@ -97,6 +94,59 @@ class Home extends React.Component {
     }
   }
 
+  onSearch(input){
+    console.log("onSearch(): ", input);
+    console.log("this.state.searchInput: ",this.state.searchInput);
+
+    filteredPlanets = this.filterPlanets(input);
+    this.setState({
+      filteredPlanets: filteredPlanets,
+      searchInput: input
+    })
+  }
+  clearSearch(){
+    console.log("ClearSearch()");
+    this.setState({
+      filteredPlanets: this.state.planets,
+      searchInput: ""
+    })
+
+  }
+
+  filterPlanets(input) {
+    return this.state.planets.filter((v) => {
+      if (v.name.toLowerCase().indexOf(input.toLowerCase()) > -1) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  renderSearchBar(){
+    if(this.state.isLoaded){
+      return(
+        <View style={styles.searchbarContainer}>
+          <SearchBar
+            round
+            lightTheme
+            style = {styles.searchbar}
+            onChangeText={(input) => this.onSearch(input)}
+            onClearText={() => this.clearSearch()}
+            placeholder='Search By Name...'
+            value={this.state.searchInput}/>
+        </View>
+      )
+    }
+  }
+
+  renderGap(){
+    if(this.state.filteredPlanets.length == 0 && this.state.isLoaded){
+      return(
+        <View style={styles.searchBarGap}></View>
+      )
+    }
+
+  }
 
   render(){
     const state = this.state;
@@ -108,6 +158,7 @@ class Home extends React.Component {
 
     return(
       <View style={styles.container}>
+
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
         <Text style={styles.titleText}>{Constants.appName}</Text>
@@ -132,7 +183,21 @@ class Home extends React.Component {
               <MonoText style={styles.codeHighlightText}>{countText}</MonoText>
             </View>
 
-            {this.renderPlanetsList(state)}
+            {/* <View style={styles.searchbarContainer}>
+            <SearchBar
+              round
+              lightTheme
+              ref='searchBar'
+              style = {styles.searchbar}
+              onChangeText={(input) => this.onSearch(input)}
+              onClearText={() => this.clearSearch()}
+              placeholder='Search By Name...'
+              value={this.state.searchInput}/>
+              </View> */}
+
+            {this.renderSearchBar()}
+            {this.renderGap()}
+            {this.renderPlanetsList()}
 
           </View>
         </ScrollView>

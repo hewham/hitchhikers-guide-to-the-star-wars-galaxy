@@ -57,13 +57,28 @@ import {
   },
 
 
+  searchbarContainer:{
+    flex: 1,
+    width: 300,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#d6d7da',
+    marginTop: 10,
+    paddingTop: -20,
+  },
+  searchBarGap:{
+    height: 400,
+    backgroundColor: 'rgb(255,0,0)'
+  },
+
+
 
 
 
   planetCard:{
     flex: 1,
     width: 300,
-    borderRadius: 4,
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#d6d7da',
     marginTop: 10,

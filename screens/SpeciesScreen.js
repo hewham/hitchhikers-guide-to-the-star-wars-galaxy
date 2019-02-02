@@ -9,6 +9,7 @@ import { WebBrowser } from 'expo';
 
 
 import { MonoText } from '../components/StyledText';
+import Constants from '../constants/Variables';
 import httpGet from '../providers/http';
 import Specie from '../components/Specie';
 import styles from '../styles/styles';
@@ -32,9 +33,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       species: [],
-      species: [],
       speciesCount: 0,
-      speciesURL: "",
       isLoaded: false,
       modalVisible: false,
     };
@@ -44,7 +43,7 @@ class Home extends React.Component {
 
   init = async () => {
     if(!this.state.isLoaded){
-      this.getSpecies("https://swapi.co/api/species/");
+      this.getSpecies(Constants.speciesURL);
     }
   }
 
@@ -64,7 +63,6 @@ class Home extends React.Component {
 
       this.setState({
         specieCount: res.count,
-        nextSpeciesURL: res.next,
         species: species,
       });
   

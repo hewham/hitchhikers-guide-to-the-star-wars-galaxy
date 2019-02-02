@@ -134,6 +134,7 @@ export default class PlanetModal extends React.Component {
                 {renderListItem('terrain', '#663300', 'Terrain', this.props.planet.terrain)}
                 {renderListItem('cloud', '#808080', 'Climate', this.props.planet.climate)}
                 {renderListItem('pool', '#0099ff', 'Surface Water', this.props.planet.surface_water+"%")}
+                {renderListItem('people', '#6600ff', 'Population', this.props.planet.population)}
               </View>
 
 
@@ -146,7 +147,6 @@ export default class PlanetModal extends React.Component {
 
 
               <View style={listStyles.listBox}>
-                {renderListItem('people', '#6600ff', 'Population', this.props.planet.population)}
                 {renderListItem('mood', '#009933', 'Important Characters', this.props.planet.residents.length)}
                 <View style={{ marginLeft: 30}}>
                   {this.renderResidents()}
