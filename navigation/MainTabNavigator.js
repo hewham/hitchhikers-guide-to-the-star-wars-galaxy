@@ -4,42 +4,42 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SpeciesScreen from '../screens/SpeciesScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Current',
+  tabBarLabel: 'Scanner',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-cloud${focused ? '' : '-outline'}`
-          : 'md-cloud'
+          ? 'ios-compass'
+          : 'md-compass'  
       }
     />
   ),
 };
 
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const SpeciesStack = createStackNavigator({
+  Search: SpeciesScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Forecast',
+SpeciesStack.navigationOptions = {
+  tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-clock' : 'md-clock'}
+      name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
     />
   ),
 };
 
 export default createBottomTabNavigator({
   HomeStack,
-  SettingsStack,
+  SpeciesStack,
 });
