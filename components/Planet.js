@@ -35,11 +35,20 @@ export default class Planet extends React.Component {
   }
 
   render(){
-    const state = this.state;
     const planet = this.props.planet;
     return(
       <React.Fragment>
         <View style={styles.planetCard}>
+
+        <View style={styles.viewButton}>
+          <Button
+            title="View"
+            color="#841584"
+            onPress={() => {
+              this.setModalVisible(true);
+            }} />
+        </View>
+
           <Text style={styles.planetName}>{planet.name}</Text>
           <MonoText style={styles.planetSubtitle}>Planet</MonoText>
           <Grid>
@@ -66,16 +75,10 @@ export default class Planet extends React.Component {
           </Grid>
 
           <PlanetModal 
-            visible={state.modalVisible} 
+            visible={this.state.modalVisible} 
             planet={planet}
           />
 
-          <Button
-            title="View"
-            color="#841584"
-            onPress={() => {
-              this.setModalVisible(true);
-            }} />
 
         </View>
       </ React.Fragment>

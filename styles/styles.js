@@ -78,11 +78,12 @@ import {
     flex: 1,
     width: 300,
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#d6d7da',
     marginTop: 10,
     paddingTop: -20,
-    backgroundColor: '#F0F0F0'
+    backgroundColor: '#f8f8f8',
+    position: 'relative'
   },
   planetName:{
     fontSize: 20,
@@ -105,8 +106,8 @@ import {
 
   detailCol:{
     alignItems: 'center',
-    // backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.06)',
+    borderRadius: 4,
     margin: 2,
     padding: 3,
   },
@@ -123,6 +124,12 @@ import {
     color: '#888',
   },
 
+  viewButton:{
+    position: 'absolute',
+    right: 0,
+    top: -2,
+    zIndex: 100,
+  },
   hideButton:{
     position: 'absolute',
     left: 10,
