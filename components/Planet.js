@@ -59,7 +59,7 @@ export default class Planet extends React.Component {
                 {renderDetailTile('cloud', '#808080', 'Climate', planet.climate)}
               </Col>
               <Col style={styles.detailCol}>
-                {renderDetailTile('pool', '#0099ff', 'Surface Water', planet.surface_water)}
+                {renderDetailTile('pool', '#0099ff', 'Surface Water', planet.surface_water+"%")}
               </Col>
           </Grid>
           <Grid>
