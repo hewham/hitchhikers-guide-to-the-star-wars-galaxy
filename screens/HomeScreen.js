@@ -97,7 +97,7 @@ class Home extends React.Component {
 
   // on search input function to filter results
   onSearch(input){
-    filteredPlanets = searchFilter(input, this.state.planets);
+    var filteredPlanets = searchFilter(input, this.state.planets);
     this.setState({
       filteredPlanets: filteredPlanets,
       searchInput: input

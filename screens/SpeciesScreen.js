@@ -91,7 +91,7 @@ class Home extends React.Component {
     if(state.isLoaded){
       scanText = "Done!";
     }
-    countText = state.species.length+" Species Found";
+    var countText = state.species.length+" Species Found";
 
     return(
       <View style={styles.container}>
