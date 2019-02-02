@@ -10,7 +10,10 @@ import {
  const listStyles = StyleSheet.create({
 
   listDetailContainer:{
-    flexWrap: "wrap"
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   listBox:{
@@ -20,6 +23,7 @@ import {
     marginRight: 10,
     marginLeft: 10,
     marginTop: 10,
+    flexWrap: 'wrap'
   },
   listDetailIcon:{
     position: 'absolute',

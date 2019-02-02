@@ -13,6 +13,8 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import Constants from '../constants/Variables';
 import httpGet from '../providers/http';
+import searchFilter from '../providers/searchFilter';
+import { sortAlpha } from '../providers/sort';
 
 import Planet from '../components/Planet';
 import styles from '../styles/styles';
@@ -39,7 +41,6 @@ class Home extends React.Component {
       filteredPlanets: [],
       planetCount: 0,
       isLoaded: false,
-      modalVisible: false,
       searchInput: "",
     };
 
@@ -60,17 +61,11 @@ class Home extends React.Component {
       var planets = this.state.planets.concat(res.results);
 
       //Sort planets alphabetically
-      planets.sort(function(a, b) {
-          var textA = a.name.toUpperCase();
-          var textB = b.name.toUpperCase();
-          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-      });
-
+      planets = sortAlpha(planets);
       this.setState({
         planetCount: res.count,
         planets: planets,
       });
-  
       //Call function again to check for another page
       this.getPlanets(res.next);
     }else{
@@ -79,6 +74,40 @@ class Home extends React.Component {
         filteredPlanets: this.state.planets,
         isLoaded: true
       });
+    }
+  }
+
+  // Search bar renderer
+  renderSearchBar(){
+    if(this.state.isLoaded){
+      return(
+        <View style={styles.searchbarContainer}>
+          <SearchBar
+            round
+            lightTheme
+            style = {styles.searchbar}
+            onChangeText={(input) => this.onSearch(input)}
+            placeholder='Search By Name...'
+            clearIcon = {false}
+            value={this.state.searchInput}/>
+        </View>
+      )
+    }
+  }
+
+  // on search input function to filter results
+  onSearch(input){
+    filteredPlanets = searchFilter(input, this.state.planets);
+    this.setState({
+      filteredPlanets: filteredPlanets,
+      searchInput: input
+    })
+  }
+
+  // render gap below searchbar if no results to remove keyboard cover / jumps
+  renderGap(){
+    if(this.state.filteredPlanets.length == 0 && this.state.isLoaded){
+      return <View style={styles.searchBarGap}></View>
     }
   }
 
@@ -94,83 +123,29 @@ class Home extends React.Component {
     }
   }
 
-  onSearch(input){
-    console.log("onSearch(): ", input);
-    console.log("this.state.searchInput: ",this.state.searchInput);
-
-    filteredPlanets = this.filterPlanets(input);
-    this.setState({
-      filteredPlanets: filteredPlanets,
-      searchInput: input
-    })
-  }
-  clearSearch(){
-    console.log("ClearSearch()");
-    this.setState({
-      filteredPlanets: this.state.planets,
-      searchInput: ""
-    })
-
-  }
-
-  filterPlanets(input) {
-    return this.state.planets.filter((v) => {
-      if (v.name.toLowerCase().indexOf(input.toLowerCase()) > -1) {
-        return true;
-      }
-      return false;
-    });
-  }
-
-  renderSearchBar(){
-    if(this.state.isLoaded){
-      return(
-        <View style={styles.searchbarContainer}>
-          <SearchBar
-            round
-            lightTheme
-            style = {styles.searchbar}
-            onChangeText={(input) => this.onSearch(input)}
-            onClearText={() => this.clearSearch()}
-            placeholder='Search By Name...'
-            value={this.state.searchInput}/>
-        </View>
-      )
-    }
-  }
-
-  renderGap(){
-    if(this.state.filteredPlanets.length == 0 && this.state.isLoaded){
-      return(
-        <View style={styles.searchBarGap}></View>
-      )
-    }
-
-  }
-
   render(){
-    const state = this.state;
     var scanText = "Scanning...";
-    if(state.isLoaded){
+    var countText = this.state.planets.length+" Planets Found";
+    if(this.state.isLoaded){
       scanText = "Done!";
+      countText = this.state.filteredPlanets.length+" Planets Found";
     }
-    countText = state.planets.length+" Planets Found";
+    if(this.state.filteredPlanets.length == 1){
+      countText = this.state.filteredPlanets.length+" Planet Found";
+    }
 
     return(
       <View style={styles.container}>
 
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-        <Text style={styles.titleText}>{Constants.appName}</Text>
-
-
+          <Text style={styles.titleText}>Planet Scanner</Text>
           <View style={styles.mainImageContainer}>
             <Image
               source={require('../assets/images/radar.gif')}
               style={styles.mainImage}
             />
           </View>
-
 
 
           <View style={styles.mainContainer}>
@@ -183,23 +158,11 @@ class Home extends React.Component {
               <MonoText style={styles.codeHighlightText}>{countText}</MonoText>
             </View>
 
-            {/* <View style={styles.searchbarContainer}>
-            <SearchBar
-              round
-              lightTheme
-              ref='searchBar'
-              style = {styles.searchbar}
-              onChangeText={(input) => this.onSearch(input)}
-              onClearText={() => this.clearSearch()}
-              placeholder='Search By Name...'
-              value={this.state.searchInput}/>
-              </View> */}
-
             {this.renderSearchBar()}
             {this.renderGap()}
             {this.renderPlanetsList()}
-
           </View>
+
         </ScrollView>
       </View>
     )

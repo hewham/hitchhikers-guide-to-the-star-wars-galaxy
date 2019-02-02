@@ -11,6 +11,7 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import Constants from '../constants/Variables';
 import httpGet from '../providers/http';
+import { sortAlpha } from '../providers/sort';
 import Specie from '../components/Specie';
 import styles from '../styles/styles';
 
@@ -55,12 +56,7 @@ class Home extends React.Component {
       var species = this.state.species.concat(res.results);
 
       //Sort species alphabetically
-      species.sort(function(a, b) {
-          var textA = a.name.toUpperCase();
-          var textB = b.name.toUpperCase();
-          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-      });
-
+      species = sortAlpha(species);
       this.setState({
         specieCount: res.count,
         species: species,

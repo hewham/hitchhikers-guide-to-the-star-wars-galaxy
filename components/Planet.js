@@ -4,6 +4,7 @@ import {
   Button,
   View
 } from 'react-native';
+import { MonoText } from '../components/StyledText';
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 import renderDetailTile from './renderDetailTile';
@@ -21,6 +22,12 @@ export default class Planet extends React.Component {
       modalVisible: false,
     };
   }
+  // Always make sure modal is not visable when reloading planet view
+  componentWillReceiveProps() {
+    this.setState({
+      modalVisible: false,
+    });
+  }
 
   // Toggles planet detail modal
   setModalVisible(visible) {
@@ -34,6 +41,7 @@ export default class Planet extends React.Component {
       <React.Fragment>
         <View style={styles.planetCard}>
           <Text style={styles.planetName}>{planet.name}</Text>
+          <MonoText style={styles.planetSubtitle}>Planet</MonoText>
           <Grid>
               <Col style={styles.detailCol}>
                 {renderDetailTile('terrain', '#663300', 'Terrain', planet.terrain)}

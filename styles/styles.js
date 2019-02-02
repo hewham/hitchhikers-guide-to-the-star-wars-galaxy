@@ -74,7 +74,6 @@ import {
 
 
 
-
   planetCard:{
     flex: 1,
     width: 300,

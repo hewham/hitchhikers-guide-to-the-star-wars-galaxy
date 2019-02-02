@@ -11,6 +11,7 @@ import { MonoText } from '../components/StyledText';
 
 import httpGet from '../providers/http';
 import renderListItem from './renderListItem';
+import { sortAlpha, sortNum } from '../providers/sort';
 
 import styles from '../styles/styles';
 import listStyles from '../styles/listStyles';
@@ -39,10 +40,9 @@ export default class PlanetModal extends React.Component {
         films: [],
       })
     }
-
   }
 
-  // fetch important character (residents) and related films
+  // fetch important characters (residents) and related films on modal popup
   init(){
     for(let residentsURL of this.props.planet.residents){
       this.getResident(residentsURL);
@@ -52,34 +52,26 @@ export default class PlanetModal extends React.Component {
     }
   }
 
-  // fetch residents
+  // fetch resident from url
   getResident = async (url) => {
     var res = await httpGet(url);
     this.state.residents.push(res);
     
     //Sort residents alphabetically
-    this.state.residents.sort(function(a, b) {
-      var textA = a.name.toUpperCase();
-      var textB = b.name.toUpperCase();
-      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-    });
+    this.state.residents = sortAlpha(this.state.residents);
     this.setState({
       residents: this.state.residents,
     });
   }
 
 
-  // fetch related films
+  // fetch related film from url
   getFilm = async (url) => {
     var res = await httpGet(url);
     this.state.films.push(res);
-
+    
     //Sort films by episode number numerically
-    this.state.films.sort(function(a, b) {
-        var textA = a.episode_id;
-        var textB = b.episode_id;
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-    });
+    this.state.films = sortNum(this.state.films);
     this.setState({
       films: this.state.films,
     });
@@ -93,14 +85,16 @@ export default class PlanetModal extends React.Component {
     })
   }
 
+  // funtion to render list of residents
   renderResidents(){
     return this.state.residents.map((resident) =>
-      renderListItem("remove", "#aaa", resident.name, "")
+      renderListItem("keyboard-arrow-right", "#aaa", resident.name, "")
     );
   }
+  // funtion to render list of films
   renderFilms(){
     return this.state.films.map((film) =>
-      renderListItem("remove", "#aaa", "Episode "+film.episode_id, film.title)
+      renderListItem("keyboard-arrow-right", "#aaa", "Episode "+film.episode_id, film.title)
     );
   }
 
@@ -142,7 +136,7 @@ export default class PlanetModal extends React.Component {
                 {renderListItem('donut-small', '#ff6600', 'Diameter', this.props.planet.diameter+" KM")}
                 {renderListItem('get-app', '#800000', 'Gravity', this.props.planet.gravity)}
                 {renderListItem('rotate-left', '#3366cc', 'Day Length', this.props.planet.rotation_period+" Days")}
-                {renderListItem('today', '#cccc00', 'Year Length', this.props.planet.orbital_period+" Days")}
+                {renderListItem('today', '#cc0099', 'Year Length', this.props.planet.orbital_period+" Days")}
               </View>
 
 
